@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 
-class AuthController extends Controller
+class UserController extends Controller
 {
     public function register(Request $request)
     {
@@ -19,15 +19,15 @@ class AuthController extends Controller
         $validatedData['password'] = bcrypt($request->password);
         $user = User::create($validatedData);
         $accessToken = $user->createToken('authToken')->accessToken;
-        return response(['user'=>$user,'access_token'=>$accessToken]);
+        return response(['message'=>"Success Register",'access_token'=>$accessToken]);
     }
 
     public function login(Request $request)
     {
         $validatedData = $request->validate([
-            'name'  => 'required',
             'email' => 'email|required',
-            'password' => 'required'
+            'password' => 'required',
+            'remember_me' => 'boolean'
         ]);
 
         if(!Auth::attempt($validatedData)){ 
@@ -35,6 +35,11 @@ class AuthController extends Controller
         }
 
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
-        return response(['user'=>Auth::user(),'access_token'=>$accessToken]);
+        return response(['message'=>"Success Login",'access_token'=>$accessToken]);
+    }
+
+    public function logout(Request $request)
+    {
+        
     }
 }
