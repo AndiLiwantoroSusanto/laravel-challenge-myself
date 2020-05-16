@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -38,8 +38,8 @@ class UserController extends Controller
         return response(['message'=>"Success Login",'access_token'=>$accessToken]);
     }
 
-    public function logout(Request $request)
+    public function test()
     {
-        
+        return User::all();
     }
 }
