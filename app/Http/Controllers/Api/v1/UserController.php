@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Auth;
+use App\Mail\TestEmail;
+use Mail;
 
 class UserController extends Controller
 {
@@ -24,6 +26,10 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        $data = ['message' => 'This is a test!'];
+
+        Mail::to('andiliesusanto@gmail.com')->send(new TestEmail($data));
+
         $validatedData = $request->validate([
             'email' => 'email|required',
             'password' => 'required',

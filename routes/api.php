@@ -15,10 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/v1')->group( function() {
-    Route::post('/register','Api\v1\UserController@register');
-    Route::post('/login','Api\v1\UserController@login');
+    Route::prefix('/user')->group(function () {
+        Route::post('/register','Api\v1\UserController@register');
+        Route::post('/login','Api\v1\UserController@login');
 
-    Route::middleware('auth:api')->group( function() {
-        Route::get('/test','Api\v1\UserController@test');
+        Route::middleware('auth:api')->group( function() {
+            Route::get('/test','Api\v1\UserController@test');
+        });
+    });
+
+    Route::prefix('/goal')->group(function () {
+        Route::post('');
     });
 });
