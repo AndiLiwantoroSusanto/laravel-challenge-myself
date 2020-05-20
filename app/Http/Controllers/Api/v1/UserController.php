@@ -14,7 +14,6 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
-        
         // $data = ['message' => 'This is a test!'];
 
         // Mail::to('andiliesusanto@gmail.com')->send(new TestEmail($data));
@@ -59,9 +58,8 @@ class UserController extends Controller
             return response(['message'=>'Password does not match']);
         }
         
-        $obj_user = User::find($user->id);
-        $obj_user->password = bcrypt($request->new_password);
-        $obj_user->save();
+        $user->password = bcrypt($request->new_password);
+        $user->save();
 
         return response(['message'=>'Password Changed']);
     }
