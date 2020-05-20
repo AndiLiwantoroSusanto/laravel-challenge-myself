@@ -19,3 +19,10 @@ Route::get('/unauthorized',
         return response(['message'=>'unauthorized']);
     } 
 );
+
+Route::any('/',
+    function ()
+    {
+        return response(['message'=>'unauthorized']);
+    } 
+);

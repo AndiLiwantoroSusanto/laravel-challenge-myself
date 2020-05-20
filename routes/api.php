@@ -15,16 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/v1')->group( function() {
+    
     Route::prefix('/user')->group(function () {
         Route::post('/register','Api\v1\UserController@register');
         Route::post('/login','Api\v1\UserController@login');
-
+        //vertify email,forgot password
         Route::middleware('auth:api')->group( function() {
-            Route::get('/test','Api\v1\UserController@test');
+            Route::post('/change','Api\v1\UserController@change');
         });
     });
 
     Route::prefix('/goal')->group(function () {
-        Route::post('');
+        Route::middleware('auth:api')->group( function() {
+            Route::get('/index','Api\v1\GoalController@index');
+        });
     });
 });

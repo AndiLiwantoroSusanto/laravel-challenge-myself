@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Goal;
 
 class GoalController extends Controller
 {
@@ -13,7 +15,8 @@ class GoalController extends Controller
      */
     public function index()
     {
-        //
+        $goals = Goal::All();
+        return response(['goals'=>$goals]);
     }
 
     /**

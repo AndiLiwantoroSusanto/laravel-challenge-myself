@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
 use App\Mail\TestEmail;
@@ -13,6 +14,11 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
+        
+        // $data = ['message' => 'This is a test!'];
+
+        // Mail::to('andiliesusanto@gmail.com')->send(new TestEmail($data));
+
         $validatedData = $request->validate([
             'name'  => 'required|max:55',
             'email' => 'email|required',
@@ -26,10 +32,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $data = ['message' => 'This is a test!'];
-
-        Mail::to('andiliesusanto@gmail.com')->send(new TestEmail($data));
-
         $validatedData = $request->validate([
             'email' => 'email|required',
             'password' => 'required',
@@ -44,8 +46,23 @@ class UserController extends Controller
         return response(['message'=>"Success Login",'access_token'=>$accessToken]);
     }
 
-    public function test()
+    public function change(Request $request) 
     {
-        return User::all();
+        $validatedData = $request->validate([
+            'password' => 'required',
+            'new_password' => 'required'
+        ]);
+        
+        $user = $request->user();
+
+        if(!Hash::check($request->password,$user->password)){
+            return response(['message'=>'Password does not match']);
+        }
+        
+        $obj_user = User::find($user->id);
+        $obj_user->password = bcrypt($request->new_password);
+        $obj_user->save();
+
+        return response(['message'=>'Password Changed']);
     }
 }
