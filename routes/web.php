@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/unauthorized',
     function ()
     {
-        return response(['message'=>'unauthorized']);
+        return response(['message'=>'unauthorized'],401);
     } 
 );
 
 Route::any('/',
     function ()
     {
-        return response(['message'=>'unauthorized']);
+        return response(['message'=>'unauthorized'],401);
     } 
 );

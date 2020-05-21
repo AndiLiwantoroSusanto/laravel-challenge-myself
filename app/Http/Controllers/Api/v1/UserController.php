@@ -7,26 +7,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
-use App\Mail\TestEmail;
 use Mail;
+use Illuminate\Http\Response;
+use App\Mail\TestEmail;
+
+use App\Services\User\CreateUser;
+use App\Services\User\AuthUser;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new user
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function register(Request $request)
     {
         // $data = ['message' => 'This is a test!'];
-
         // Mail::to('andiliesusanto@gmail.com')->send(new TestEmail($data));
-
         $validatedData = $request->validate([
             'name'  => 'required|max:55',
             'email' => 'email|required',
             'password' => 'required|confirmed'
         ]);
-        $validatedData['password'] = bcrypt($request->password);
-        $user = User::create($validatedData);
-        $accessToken = $user->createToken('authToken')->accessToken;
-        return response(['message'=>"Success Register",'access_token'=>$accessToken]);
+        
+        $result = CreateUser::execute($validatedData);
+
+        return response($result,isset($result['errors']) ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
     }
 
     public function login(Request $request)
@@ -37,12 +45,16 @@ class UserController extends Controller
             'remember_me' => 'boolean'
         ]);
 
-        if(!Auth::attempt($validatedData)){ 
-            return response(['message'=>'Invalid Credentials']);
-        }
+        $result = AuthUser::execute($validatedData); 
 
-        $accessToken = Auth::user()->createToken('authToken')->accessToken;
-        return response(['message'=>"Success Login",'access_token'=>$accessToken]);
+        if($result['status'])
+        {
+            return response(['message'=>$result['message'],'data'=>$result['data']],Response::HTTP_OK);
+        }
+        else
+        {
+            return response(['message'=>$result['message']],Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
     public function change(Request $request) 
