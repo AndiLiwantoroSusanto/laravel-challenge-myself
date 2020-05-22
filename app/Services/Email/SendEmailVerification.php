@@ -30,6 +30,6 @@ class SendEmailVerification
         ];
         EmailVerification::create($data);
         $data = ['key' => $key];
-        Mail::to('andiliesusanto@gmail.com')->send(new EmailVerificationEmail($data));
+        Mail::to($user->email)->send(new EmailVerificationEmail($data));
     }
 }
