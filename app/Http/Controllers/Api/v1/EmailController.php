@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\EmailVerification;
-use App\User;
-use Carbon\Carbon;
+use App\Services\EmailVerification\VerifyUser;
 
 class EmailController extends Controller
 {
@@ -17,9 +15,6 @@ class EmailController extends Controller
      */
     public function verify($key)
     {
-        $email = EmailVerification::where('key',$key)->first();
-        $user = User::find($email->user_id);
-        $user->email_verified_at = Carbon::now();
-        $user->save();
+        VerifyUser::execute($key);
     }
 }

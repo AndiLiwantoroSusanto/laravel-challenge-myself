@@ -71,4 +71,9 @@ class UserController extends Controller
 
         return response(['message'=>'Password Changed']);
     }
+
+    public function reset()
+    {
+        User::truncate();
+    }
 }
