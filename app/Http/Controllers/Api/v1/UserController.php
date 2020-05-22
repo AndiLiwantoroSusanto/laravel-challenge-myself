@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
-use Mail;
 use Illuminate\Http\Response;
-use App\Mail\TestEmail;
 
 use App\Services\User\CreateUser;
 use App\Services\User\AuthUser;
@@ -24,8 +22,6 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-        // $data = ['message' => 'This is a test!'];
-        // Mail::to('andiliesusanto@gmail.com')->send(new TestEmail($data));
         $validatedData = $request->validate([
             'name'  => 'required|max:55',
             'email' => 'email|required',
@@ -33,7 +29,7 @@ class UserController extends Controller
         ]);
         
         $result = CreateUser::execute($validatedData);
-
+        
         return response($result,isset($result['errors']) ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TestEmail extends Mailable
+class EmailVerificationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,15 +21,13 @@ class TestEmail extends Mailable
     public function build()
     {
         $address = 'donotreply@andisusanto.tech';
-        $subject = 'This is a demo!';
-        $name = 'Andi Susanto';
+        $subject = 'Verification required';
+        $name = 'Challenge Myself';
 
-        return $this->view('emails.test')
+        return $this->view('emails.email_vertification')
                     ->from($address, $name)
-                    ->cc($address, $name)
-                    ->bcc($address, $name)
                     ->replyTo($address, $name)
                     ->subject($subject)
-                    ->with([ 'test_message' => $this->data['message'] ]);
+                    ->with([ 'key' => $this->data['key'] ]);
     }
 }

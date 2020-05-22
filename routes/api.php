@@ -25,6 +25,10 @@ Route::prefix('/v1')->group( function() {
         });
     });
 
+    Route::prefix('/email')->group(function () {
+        Route::get('/verify/{key}','Api\v1\EmailController@verify');
+    });
+    
     Route::prefix('/goal')->group(function () {
         Route::middleware('auth:api')->group( function() {
             Route::get('/index','Api\v1\GoalController@index');

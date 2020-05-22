@@ -3,6 +3,7 @@ namespace App\Services\User;
 
 use App\User;
 use Auth;
+use App\Services\Email\SendEmailVerification;
 class CreateUser
 {
     public function __construct()
@@ -26,7 +27,7 @@ class CreateUser
         }
 
 
-        if(!isEmpty($errors))
+        if(!empty($errors))
         {
             return [
                 'message'=> 'The given data was invalid.',
@@ -41,6 +42,8 @@ class CreateUser
             $user = User::create($data);
             $accessToken = $user->createToken('authToken')->accessToken;
             
+            SendEmailVerification::execute($user);
+
             return [
                 'message'=> 'User registered',
                 'data' => [
