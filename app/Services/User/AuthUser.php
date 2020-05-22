@@ -38,9 +38,7 @@ class AuthUser
 
             return [
                 'message'=> 'User authenticated',
-                'data' => [
-                    'access_token' => $accessToken
-                ]
+                'access_token' => $accessToken
             ];
         }
     }

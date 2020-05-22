@@ -46,9 +46,7 @@ class CreateUser
 
             return [
                 'message'=> 'User registered',
-                'data' => [
-                    'access_token' => $accessToken
-                ]
+                'access_token' => $accessToken
             ];
         }
     }
