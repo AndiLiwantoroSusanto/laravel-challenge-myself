@@ -42,15 +42,8 @@ class UserController extends Controller
         ]);
 
         $result = AuthUser::execute($validatedData); 
-
-        if($result['status'])
-        {
-            return response(['message'=>$result['message'],'data'=>$result['data']],Response::HTTP_OK);
-        }
-        else
-        {
-            return response(['message'=>$result['message']],Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        
+        return response($result,isset($result['errors']) ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
     }
 
     public function change(Request $request) 
