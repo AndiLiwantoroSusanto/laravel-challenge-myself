@@ -23,6 +23,8 @@ Route::prefix('/v1')->group( function() {
         Route::middleware('auth:api')->group( function() {
             Route::post('/change','Api\v1\UserController@change');
         });
+
+        Route::get('/reset','Api\v1\UserController@reset');
     });
 
     Route::prefix('/email')->group(function () {
