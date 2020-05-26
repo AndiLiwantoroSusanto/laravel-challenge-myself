@@ -16,9 +16,9 @@ class CreateGoalsTable extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamp('achived_at');
+            $table->date('achived_at');
             $table->boolean('is_not_lazy');
-            $table->timestamp('started_at');
+            $table->date('started_at');
             $table->integer('total_day');
             $table->foreignId('user_id');
 

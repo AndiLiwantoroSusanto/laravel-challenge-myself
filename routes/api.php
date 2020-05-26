@@ -19,7 +19,8 @@ Route::prefix('/v1')->group( function() {
     Route::prefix('/user')->group(function () {
         Route::post('/register','Api\v1\UserController@register');
         Route::post('/login','Api\v1\UserController@login');
-        //vertify email,forgot password
+        
+        
         Route::middleware('auth:api')->group( function() {
             Route::post('/change','Api\v1\UserController@change');
         });
@@ -33,7 +34,7 @@ Route::prefix('/v1')->group( function() {
     
     Route::prefix('/goal')->group(function () {
         Route::middleware('auth:api')->group( function() {
-            Route::get('/index','Api\v1\GoalController@index');
+            Route::post('/store','Api\v1\GoalController@store');
         });
     });
 });
