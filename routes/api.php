@@ -35,7 +35,7 @@ Route::prefix('/v1')->group( function() {
     Route::prefix('/goal')->group(function () {
         Route::middleware('auth:api')->group( function() {
             Route::post('/store','Api\v1\GoalController@store');
-            Route::post('/index','Api\v1\GoalController@index');
+            Route::get('/index','Api\v1\GoalController@index');
         });
     });
 });
