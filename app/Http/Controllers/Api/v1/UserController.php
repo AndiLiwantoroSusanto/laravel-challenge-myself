@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 
 use App\Services\User\CreateUser;
 use App\Services\User\AuthUser;
+use App\Services\User\ChangeUserPassword;
 
 class UserController extends Controller
 {
@@ -53,16 +54,9 @@ class UserController extends Controller
             'new_password' => 'required'
         ]);
         
-        $user = $request->user();
-
-        if(!Hash::check($request->password,$user->password)){
-            return response(['message'=>'Password does not match']);
-        }
+        $result = ChangeUserPassword::execute($validatedData,$request->user());
         
-        $user->password = bcrypt($request->new_password);
-        $user->save();
-
-        return response(['message'=>'Password Changed']);
+        return response($result,isset($result['errors']) ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
     }
 
     public function reset()
