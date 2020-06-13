@@ -16,7 +16,7 @@ class GoalController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $goals = Goal::where('user_id',$user->id)-get();
+        $goals = Goal::where('user_id',$user->id)->get();
         return response(['goals'=>$goals]);
     }
 
