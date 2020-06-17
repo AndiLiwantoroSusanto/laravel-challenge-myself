@@ -64,9 +64,9 @@ class GoalController extends Controller
         ]);
     }
 
-    public function updateCheckIn()
+    public function refreshCheckIn()
     {
-        $goals = Goal::where('is_not_lazy', 0)->where('check_in', 1)->get();
+        $goals = Goal::where('is_not_lazy', 1)->where('check_in', 1)->get();
         if (isset($goals)) {
             foreach ($goals as $goal) {
                 $goal->check_in = false;
