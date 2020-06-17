@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::group(['prefix' => '/v1', 'middleware' => 'cors'], function ($api) {
+Route::group(['prefix' => '/v1'], function ($api) {
 
     Route::prefix('/user')->group(function () {
         Route::post('/register', 'Api\v1\UserController@register');
-        Route::post('/login', ['middleware' => 'cors', 'uses' => 'Api\v1\UserController@login']);
+        Route::post('/login', ['uses' => 'Api\v1\UserController@login']);
 
         Route::middleware('auth:api')->group(function () {
             Route::post('/change', 'Api\v1\UserController@change');
