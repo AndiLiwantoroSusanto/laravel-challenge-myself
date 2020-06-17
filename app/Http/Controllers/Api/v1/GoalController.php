@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Goal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Goal;
 
 class GoalController extends Controller
 {
@@ -16,8 +16,8 @@ class GoalController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $goals = Goal::where('user_id',$user->id)->get();
-        return response(['goals'=>$goals]);
+        $goals = Goal::where('user_id', $user->id)->get();
+        return response(['goals' => $goals]);
     }
 
     /**
@@ -32,16 +32,47 @@ class GoalController extends Controller
             'name' => 'required',
             'is_not_lazy' => 'boolean|required',
             'started_at' => 'date|required',
-            'total_day' => 'numeric|required'
+            'total_day' => 'numeric|required',
         ]);
         $validatedData['user_id'] = $request->user()->id;
 
         $goal = Goal::create($validatedData);
-        
+
         return response([
-            'message'=> 'User registered',
-            'goal' => $goal
+            'message' => 'User registered',
+            'goal' => $goal,
         ]);
+    }
+
+    public function checkIn(Request $request, $goalId)
+    {
+        $validatedData['user_id'] = $request->user()->id;
+        $msg = 'Success Check In';
+        $goal = Goal::where('id', $goalId)->first();
+        if (isset($goal)) {
+            if (!$goal->check_in) {
+                $goal->check_in = true;
+                $goal->current_day++;
+                $goal->save();
+            } else {
+                $msg = 'Already Check In';
+            }
+        }
+
+        return response([
+            'message' => $msg,
+        ]);
+    }
+
+    public function updateCheckIn()
+    {
+        $goals = Goal::where('is_not_lazy', 0)->where('check_in', 1)->get();
+        if (isset($goals)) {
+            foreach ($goals as $goal) {
+                $goal->check_in = false;
+                $goal->save();
+            }
+        }
     }
 
     public function resetG()

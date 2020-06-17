@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,30 +11,30 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
-Route::prefix('/v1')->group( function() {
-    
+Route::group(['prefix' => '/v1', 'middleware' => 'cors'], function ($api) {
+
     Route::prefix('/user')->group(function () {
-        Route::post('/register','Api\v1\UserController@register');
-        Route::post('/login','Api\v1\UserController@login');
-        
-        
-        Route::middleware('auth:api')->group( function() {
-            Route::post('/change','Api\v1\UserController@change');
+        Route::post('/register', 'Api\v1\UserController@register');
+        Route::post('/login', ['middleware' => 'cors', 'uses' => 'Api\v1\UserController@login']);
+
+        Route::middleware('auth:api')->group(function () {
+            Route::post('/change', 'Api\v1\UserController@change');
         });
 
-        Route::get('/reset','Api\v1\UserController@reset');
+        Route::get('/reset', 'Api\v1\UserController@reset');
     });
 
     Route::prefix('/email')->group(function () {
-        Route::get('/verify/{key}','Api\v1\EmailController@verify');
+        Route::get('/verify/{key}', 'Api\v1\EmailController@verify');
     });
-    
+
     Route::prefix('/goal')->group(function () {
-        Route::middleware('auth:api')->group( function() {
-            Route::post('/store','Api\v1\GoalController@store');
-            Route::get('/index','Api\v1\GoalController@index');
+        Route::middleware('auth:api')->group(function () {
+            Route::post('/store', 'Api\v1\GoalController@store');
+            Route::get('/index', 'Api\v1\GoalController@index');
+            Route::post('/{id}/check-in', 'Api\v1\GoalController@checkIn');
         });
     });
 });

@@ -16,12 +16,14 @@ class CreateGoalsTable extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('achived_at');
-            $table->boolean('is_not_lazy');
+            $table->date('achived_at')->nullable();
+            $table->boolean('is_not_lazy')->default(false);
+            $table->boolean('is_notify')->default(false);
+            $table->boolean('check_in')->default(false);
             $table->date('started_at');
             $table->integer('total_day');
+            $table->integer('current_day')->default(1);
             $table->foreignId('user_id');
-
             $table->softDeletes();
             $table->timestamps();
         });
