@@ -44,11 +44,11 @@ class GoalController extends Controller
         ]);
     }
 
-    public function checkIn(Request $request, $goalId)
+    public function checkIn(Request $request, $id)
     {
-        $validatedData['user_id'] = $request->user()->id;
+        // $validatedData['user_id'] = $request->user()->id;
         $msg = 'Success Check In';
-        $goal = Goal::where('id', $goalId)->first();
+        $goal = Goal::where('id', $id)->first();
         if (isset($goal)) {
             if (!$goal->check_in) {
                 $goal->check_in = true;
