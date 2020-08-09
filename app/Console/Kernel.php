@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('App\Http\Controllers\Api\v1\GoalController@refreshCheckIn')->daily();
+        $schedule->call('App\Http\Controllers\Api\v1\GoalController@refreshCheckIn')->everyMinute();
     }
 
     /**
