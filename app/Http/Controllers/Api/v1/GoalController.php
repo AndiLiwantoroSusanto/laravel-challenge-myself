@@ -64,6 +64,11 @@ class GoalController extends Controller
         ]);
     }
 
+    public function delete(Request $request)
+    {
+        
+    }
+
     public function refreshCheckIn()
     {
         $goals = Goal::where('is_not_lazy', 1)->where('check_in', 1)->get();
