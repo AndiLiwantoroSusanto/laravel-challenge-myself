@@ -34,7 +34,8 @@ Route::group(['prefix' => '/v1'], function ($api) {
         Route::middleware('auth:api')->group(function () {
             Route::post('/store', 'Api\v1\GoalController@store');
             Route::get('/index', 'Api\v1\GoalController@index');
-            Route::post('/delete', 'Api\v1\GoalController@delete');
+            Route::post('/delete', 'Api\v1\GoalController@delete'); 
+            a
         });
         Route::post('/{id}/check-in', 'Api\v1\GoalController@checkIn');
     });
