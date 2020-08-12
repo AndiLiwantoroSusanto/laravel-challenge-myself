@@ -72,7 +72,7 @@ class GoalController extends Controller
         $goal = Goal::where([
             ['id',"=",$request->id],
             ['user_id',"=",$request->user()->id]
-        ])->first()->softDeletes();
+        ])->first()->delete();
         
         return response([
             'message' => "Goal Deleted"
