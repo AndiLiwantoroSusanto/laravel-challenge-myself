@@ -69,10 +69,10 @@ class GoalController extends Controller
         $validatedData = $request->validate([
             'id' => 'required'
         ]);
-        $goal = Goal::where(
+        $goal = Goal::where([
             ['id',"=",$request->id],
             ['user_id',"=",$request->user()->id]
-        )->first()->delete();
+        ])->first()->delete();
         
         return response([
             'message' => "Goal Deleted"
