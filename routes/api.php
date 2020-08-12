@@ -35,7 +35,7 @@ Route::group(['prefix' => '/v1'], function ($api) {
             Route::post('/store', 'Api\v1\GoalController@store');
             Route::get('/index', 'Api\v1\GoalController@index');
             Route::post('/delete', 'Api\v1\GoalController@delete');
-            //asd
+            //asdasd
         });
         Route::post('/{id}/check-in', 'Api\v1\GoalController@checkIn');
     });
