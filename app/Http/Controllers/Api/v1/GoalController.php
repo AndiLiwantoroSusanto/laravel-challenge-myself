@@ -66,7 +66,18 @@ class GoalController extends Controller
 
     public function delete(Request $request)
     {
+        $validatedData = $request->validate([
+            'id' => 'required'
+        ]);
+        $goal = Goal::where(
+            ['id',"=",$request->id],
+            ['user_id',"=",$request->user()->id]
+        )->first()->delete();
         
+        return response([
+            'message' => "Goal Deleted"
+        ]);
+
     }
 
     public function refreshCheckIn()
